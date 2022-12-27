@@ -1,24 +1,30 @@
 # gptCozmo
 Cozmo and GPT integration
 
+### install
+```
 pip install openai
 pip install dotenv
 
 pip install pycozmo
 pip install libopenjp2-7-dev
 
-/etc/wpa_supplicant/
-wpa_supplicant-wlan0.conf  wpa_supplicant-wlan1.conf
+pip install SpeechRecognition
+pip install pyaudio
+sudo apt-get install python3-pyaudio
+sudo apt-get install flac
 
-# gptCozmo
-Cozmo and GPT integration
+pip install pyttsx3
+sudo apt install espeak
+sudo apt install -y ffmpeg
 
-pip install openai
-pip install dotenv
+pip install gtts
+pip install pydub
 
-pip install pycozmo
-pip install libopenjp2-7-dev
+```
 
+### setup wlan1 to connect with cozmo
+```
 /etc/wpa_supplicant/
 wpa_supplicant-wlan0.conf  wpa_supplicant-wlan1.conf
 
@@ -35,9 +41,9 @@ sudo systemctl restart wpa_supplicant@wlan1.service
 sudo systemctl status wpa_supplicant@wlan1.service
 
 iwconfig
-
 wlan1     IEEE 802.11  ESSID:"Cozmo_71374E"
           Mode:Managed  Frequency:2.462 GHz  Access Point: 5E:CF:7F:C3:8E:EC
+
           Bit Rate=54 Mb/s   Tx-Power=31 dBm
           Retry short limit:7   RTS thr:off   Fragment thr:off
           Power Management:on
@@ -54,4 +60,42 @@ wlan1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
         RX errors 0  dropped 0  overruns 0  frame 0
         TX packets 424  bytes 56025 (54.7 KiB)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+```
+
+### setup webcam microphone
+https://pimylifeup.com/raspberrypi-microphone/
+```
+roocell@raspberrypi:~/gptCozmo $ lsusb
+Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Bus 001 Device 004: ID 413c:2005 Dell Computer Corp. RT7D50 Keyboard
+Bus 001 Device 003: ID 148f:5370 Ralink Technology, Corp. RT5370 Wireless Adapter
+Bus 001 Device 005: ID 046d:0821 Logitech, Inc. HD Webcam C910
+Bus 001 Device 002: ID 2109:3431 VIA Labs, Inc. Hub
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+roocell@raspberrypi:~/gptCozmo $
+roocell@raspberrypi:~/gptCozmo $ sudo arecord -l
+**** List of CAPTURE Hardware Devices ****
+card 3: U0x46d0x821 [USB Device 0x46d:0x821], device 0: USB Audio [USB Audio]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+
+# -c 2  = stereo mic
+# -d 5  = 4 second duration
+arecord -D hw:3,0 -d 5 -f cd test.wav -c 2
+arecord -D hw:3,0 -d 5 -fdat test.wav -c 2
+```
+
+# audio to text
+https://www.assemblyai.com/
+https://cloud.google.com/speech-to-text
+https://github.com/touchgadget/DeepSpeech
+https://github.com/flashlight/flashlight
+
+Deepspeech and Flashlight seem heavy
+Going with google - there's free portion every month.
+Seems like the API key isn't required.
+https://maker.pro/raspberry-pi/projects/speech-recognition-using-google-speech-api-and-python
+
+# cozmo functions
+https://pycozmo.readthedocs.io/en/stable/
 
