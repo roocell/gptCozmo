@@ -8,7 +8,7 @@ dotenv.load_dotenv()
 import openai
 import speech_recognition as sr
 import pycozmo
-import pyttsx3
+from gtts import gTTS
 from pydub import AudioSegment
 
 openai.api_key = os.getenv('OPENAI_API_KEY')
@@ -30,9 +30,6 @@ def ask(prompt):
     return completion.choices[0].text
 
 r = sr.Recognizer()
-tts = pyttsx3.init()
-tts.setProperty('rate', 150)    # Speed percent
-tts.setProperty('volume', 0.9)  # Volume 0-1
 
 # TODO: should append context of conversation
 with pycozmo.connect() as cli:
@@ -60,12 +57,15 @@ with pycozmo.connect() as cli:
 
         print("the response from GPT was ", response)
 
-        tts.save_to_file(response, 'tmp.mp3')
-        tts.runAndWait()
+        tts = gTTS(response, lang='en')
+        tts.save('tmp.mp3')
 
-        time.sleep(2)
+        #time.sleep(2)
 
         sound = AudioSegment.from_mp3('tmp.mp3')
+        sound.set_channels(1)
+        sound = sound.set_frame_rate(48000)                
+        sound = sound.set_channels(1)    
         sound.export('out.wav', format="wav")
 
         cli.play_audio("out.wav")

@@ -99,3 +99,30 @@ https://maker.pro/raspberry-pi/projects/speech-recognition-using-google-speech-a
 # cozmo functions
 https://pycozmo.readthedocs.io/en/stable/
 
+# cozmoclad is a low-level protocol library used by the cozmo SDK package
+
+
+# Cozmo SDK
+pip install 'cozmo[camera]'
+sudo apt-get install adb
+
+adb kill-server
+adb start-server
+adb devices
+
+https://stackoverflow.com/questions/53887322/adb-devices-no-permissions-user-in-plugdev-group-are-your-udev-rules-wrong
+roocell@raspberrypi:~/cozmo_sdk_examples_1.4.10/tutorials/01_basics $ lsusb
+Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Bus 001 Device 004: ID 413c:2005 Dell Computer Corp. RT7D50 Keyboard
+Bus 001 Device 003: ID 148f:5370 Ralink Technology, Corp. RT5370 Wireless Adapter
+Bus 001 Device 013: ID 1949:0588 Lab126, Inc. KFONWI <<<<<<<<<<<<<<<<<<<<<<<<<
+Bus 001 Device 005: ID 046d:0821 Logitech, Inc. HD Webcam C910
+Bus 001 Device 002: ID 2109:3431 VIA Labs, Inc. Hub
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+
+sudo udevadm control --reload-rules
+
+# then you'll get a permissions popup on the device
+adb devices
+
+# use a good USB cable!
