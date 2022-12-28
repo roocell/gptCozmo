@@ -1,5 +1,5 @@
 # gptCozmo
-Cozmo and GPT integration<BR>
+Cozmo and GPT integration on raspberry pi<BR>
 <a href="https://www.youtube.com/shorts/6NITF2YtEwM"><img src="gptcozmo.jpg" alt="demo" width="250"></a><BR>
 This will essentially give Cozmo a giant brain when you speak to him.<BR>
 - take input from a microphone<BR>
