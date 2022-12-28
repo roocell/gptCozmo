@@ -7,7 +7,7 @@ import dotenv
 dotenv.load_dotenv()
 import openai
 import speech_recognition as sr
-import pycozmo
+import cozmo
 from gtts import gTTS
 from pydub import AudioSegment
 
@@ -29,12 +29,14 @@ def ask(prompt):
     )
     return completion.choices[0].text
 
-r = sr.Recognizer()
-
 # TODO: should append context of conversation
-with pycozmo.connect() as cli:
-    response = ask(prompt)
-    print(response)
+
+
+response = ask(prompt)
+print(response)
+
+def cozmo_program(robot: cozmo.robot.Robot):
+    r = sr.Recognizer()
 
     while 1:
         # get some input
@@ -56,17 +58,8 @@ with pycozmo.connect() as cli:
         response = ask(recog)
 
         print("the response from GPT was ", response)
+        robot.say_text(response).wait_for_completed()
 
-        tts = gTTS(response, lang='en')
-        tts.save('tmp.mp3')
+cozmo.run_program(cozmo_program)
 
-        #time.sleep(2)
 
-        sound = AudioSegment.from_mp3('tmp.mp3')
-        sound.set_channels(1)
-        sound = sound.set_frame_rate(48000)                
-        sound = sound.set_channels(1)    
-        sound.export('out.wav', format="wav")
-
-        cli.play_audio("out.wav")
-        cli.wait_for(pycozmo.event.EvtAudioCompleted)

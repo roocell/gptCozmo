@@ -103,6 +103,7 @@ https://pycozmo.readthedocs.io/en/stable/
 
 
 # Cozmo SDK
+sudo apt-get install python3-pil.imagetk
 pip install 'cozmo[camera]'
 sudo apt-get install adb
 
