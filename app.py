@@ -10,6 +10,7 @@ import speech_recognition as sr
 import cozmo
 from gtts import gTTS
 from pydub import AudioSegment
+import sounddevice # gets rid of those annoying ALSA errors
 
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
@@ -21,7 +22,7 @@ def ask(prompt):
     completion = openai.Completion.create(
         engine=model_engine,
         prompt=prompt,
-        max_tokens=1024,
+        max_tokens=255,
         top_p=1,
         temperature=0.7,
         frequency_penalty=0,
@@ -37,10 +38,9 @@ print(response)
 
 def cozmo_program(robot: cozmo.robot.Robot):
     r = sr.Recognizer()
-
+    speech = sr.Microphone(device_index=2)
     while 1:
         # get some input
-        speech = sr.Microphone(device_index=2)
         with speech as source:
             print("say something!…")
             audio = r.adjust_for_ambient_noise(source)
@@ -55,7 +55,7 @@ def cozmo_program(robot: cozmo.robot.Robot):
             print("Could not request results from Google Speech Recognition service; {0}".format(e))
             continue
 
-        response = ask(recog)
+        response = ask(recog)[0:254]
 
         print("the response from GPT was ", response)
         robot.say_text(response).wait_for_completed()
