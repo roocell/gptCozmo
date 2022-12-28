@@ -1,7 +1,43 @@
 # gptCozmo
-Cozmo and GPT integration
+Cozmo and GPT integration<BR>
+<a href="https://www.youtube.com/shorts/6NITF2YtEwM"><img src="gptcozmo.jpg" alt="demo" width="250"></a><BR>
+This will essentially give Cozmo a giant brain when you speak to him.<BR>
+- take input from a microphone<BR>
+- convert it to text<BR>
+- send to GPT3 for a response<BR>
+- send the response to cozmo to speak<BR>
+<BR>
+Run the app like so <BR>
 
-### install
+```
+python app.py
+```
+
+### pycozmo
+https://github.com/zayfod/pycozmo<BR>
+A raspberry pi only python library to talk to cozmo. No Andriod and cozmo app required.<BR>
+Supports an audio API but didn't seem to work.<BR>
+
+### Cozmo SDK
+https://github.com/anki/cozmo-python-sdk<BR>
+The offical linux SDK python library. Requries an android device with Cozmo app attached to raspi via USB.<BR>
+This is how to get the real cozmo voice and full functionality of cozmo.<BR>
+
+### SpeechRecognition
+A python library to take audio and transcribe it to text.
+
+### openai GPT3
+Used openai API and python library to interface with GPT3.
+Create a .env file locally with 
+```
+export OPENAI_API_KEY = <your openai key>
+```
+
+### gtts / pyttsx3
+Two text to speech libraries.
+
+
+### modules required
 ```
 pip install openai
 pip install dotenv
@@ -21,6 +57,9 @@ sudo apt install -y ffmpeg
 pip install gtts
 pip install pydub
 
+sudo apt-get install python3-pil.imagetk
+pip install 'cozmo[camera]'
+sudo apt-get install adb
 ```
 
 ### setup wlan1 to connect with cozmo
@@ -62,7 +101,7 @@ wlan1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 ```
 
-### setup webcam microphone
+### webcam microphone
 https://pimylifeup.com/raspberrypi-microphone/
 ```
 roocell@raspberrypi:~/gptCozmo $ lsusb
@@ -85,28 +124,24 @@ arecord -D hw:3,0 -d 5 -f cd test.wav -c 2
 arecord -D hw:3,0 -d 5 -fdat test.wav -c 2
 ```
 
-# audio to text
-https://www.assemblyai.com/
-https://cloud.google.com/speech-to-text
-https://github.com/touchgadget/DeepSpeech
-https://github.com/flashlight/flashlight
+### audio to text
+https://www.assemblyai.com/<BR>
+https://cloud.google.com/speech-to-text<BR>
+https://github.com/touchgadget/DeepSpeech<BR>
+https://github.com/flashlight/flashlight<BR>
 
-Deepspeech and Flashlight seem heavy
-Going with google - there's free portion every month.
-Seems like the API key isn't required.
-https://maker.pro/raspberry-pi/projects/speech-recognition-using-google-speech-api-and-python
+Deepspeech and Flashlight seem heavy<BR>
+Going with google - there's free portion every month.<BR>
+Seems like the API key isn't required.<BR>
+https://maker.pro/raspberry-pi/projects/speech-recognition-using-google-speech-api-and-python<BR>
 
-# cozmo functions
-https://pycozmo.readthedocs.io/en/stable/
+### cozmo functions
+https://pycozmo.readthedocs.io/en/stable/<BR>
+cozmoclad is a low-level protocol library used by the cozmo SDK package<BR>
 
-# cozmoclad is a low-level protocol library used by the cozmo SDK package
 
-
-# Cozmo SDK
-sudo apt-get install python3-pil.imagetk
-pip install 'cozmo[camera]'
-sudo apt-get install adb
-
+### Cozmo SDK
+```
 adb kill-server
 adb start-server
 adb devices
@@ -127,3 +162,4 @@ sudo udevadm control --reload-rules
 adb devices
 
 # use a good USB cable!
+```
