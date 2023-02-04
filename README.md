@@ -60,6 +60,10 @@ pip install pydub
 sudo apt-get install python3-pil.imagetk
 pip install 'cozmo[camera]'
 sudo apt-get install adb
+
+pip install pygame
+sudo apt-get install libsdl2-2.0-0
+
 ```
 
 ### setup wlan1 to connect with cozmo
